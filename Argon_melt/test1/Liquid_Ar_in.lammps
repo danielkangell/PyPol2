@@ -1,0 +1,39 @@
+units            real
+dimension     3
+boundary      p p p
+
+
+
+variable       T equal 94.4
+variable       P equal 73
+
+
+
+lattice          fcc  7
+region          box  block -5 5 -5 5 -5 5
+create_box    1 box
+create_atoms         1 box
+
+
+
+mass           1  39.948
+
+
+
+pair_style     lj/cut  15
+pair_coeff     1  1    0.24   3.4
+
+
+
+#Equiberation
+velocity        all create $T 14235245 mom yes rot yes dist gaussian
+
+
+timestep       1
+fix               NPT all npt temp $T $T 100.0 iso $P $P 1000
+
+
+thermo_style    custom step temp  press density
+thermo          100
+run             1000
+dump            myDump all atom 100 dump.atom
