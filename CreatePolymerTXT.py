@@ -1,4 +1,13 @@
 import numpy as np
+import sys
+import os
+
+argv = sys.argv
+if len(argv) != 4:
+  print("Syntax: please write Monomercount LatSize and MonomerDistance")
+  sys.exit()
+
+use = sys.argv[1:]
 
 def generateYs(x,z,MonDistance):
     """
@@ -103,6 +112,8 @@ def compileString(MonomerCount = 50 , latsize = 100, MonDistance=2.3):
     finalString += writeAngles()
     finalString += "\n"
     finalString += writeDihedrals()
-    with open('polyinfo.txt', "w") as text_file:
+    
+    with open(os.getcwd()+'/polyinfo.txt', "w") as text_file:
         text_file.write(finalString)
 
+compileString(int(use[0]),float(use[1]),float(use[2]))
